@@ -14,6 +14,7 @@ const refs ={
 
 const apiPixabay = new ApiPixabay();
 let onLoadScroll = false;
+let gallery ='';
 
 refs.searchForm.addEventListener('submit',startSearch);
  window.addEventListener("scroll",throttle(infiniteScroll,300));
@@ -29,6 +30,7 @@ function startSearch(e){
     return hits 
   })
   .then(appendImages)
+  .then(addGalery)
   .catch(searchError); 
 }
 
@@ -50,6 +52,7 @@ function onLoadMore(){
   apiPixabay.nextPage();
   apiPixabay.fetchImages()
   .then(appendImages)
+  .then(refreshGallery)
   .catch(searchError);
   if(apiPixabay.totalHits<40*(apiPixabay.page+1)){
     lastRequest();
@@ -64,16 +67,18 @@ function lastRequest(){
 
 function appendImages(images){
   refs.gallery.insertAdjacentHTML('beforeend',imagesTpl(images));
-  addGalery();
+  
 }
 
 function clearGallery() {
   refs.gallery.innerHTML = "";
 }
 
-function addGalery(){
-  let gallery = new SimpleLightbox('.gallery a',{captionDelay:250,captionsData:'alt'});
+function addGalery(){ 
+   gallery = new SimpleLightbox('.gallery a',{captionDelay:250,captionsData:'alt'});
 }
+
+function refreshGallery(){gallery.refresh();}
 
 function infiniteScroll(){ 
   if(onLoadScroll) {   
