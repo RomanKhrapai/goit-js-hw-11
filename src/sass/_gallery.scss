@@ -1,0 +1,42 @@
+.gallery{
+    display: flex;
+    background-color: grey;
+    flex-wrap:wrap;
+    justify-content: center;
+    margin-top: 40px;
+}
+.photo-card{
+    position: relative;
+   border: 1px;
+   margin: 5px;
+   transform: scale(1);
+   
+}
+.photo-card:hover { 
+    transform: scale(1.06); 
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    transition:transform 350ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+}
+.photo-card img{
+    display: block;
+}
+.info{
+position: absolute;
+bottom: 0;
+left: 0;
+margin: 5px;
+border-radius: 5px;
+display: flex;
+padding: 0 5px;
+background-color: rgba(32, 31, 31, 0.89);
+}
+.info :not(:last-child){
+    margin-right: 5px;
+}
+.info-item{
+font-size: 12px;
+color: grey;
+text-align: center;
+}
