@@ -56,6 +56,7 @@ function onLoadMore(){
   }
 }
 
+
 function lastRequest(){
   onLoadScroll = false;
   Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
