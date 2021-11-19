@@ -108,5 +108,5 @@ oldScrolY = window.scrollY;
 
 function upDounScrol(linesY,marginTop){
   if(oldScrolY<window.scrollY){ return linesY.find(element=>element>marginTop-1);}
-    return linesY[linesY.findIndex(element=>element>marginTop-1)-1]+2;
+    return linesY[linesY.findIndex(element=>element>marginTop-1)-1]+3;
   }
