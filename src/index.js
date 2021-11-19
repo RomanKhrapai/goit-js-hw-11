@@ -5,6 +5,7 @@ import ApiPixabay from './java-script/pixabay-api';
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import throttle from 'lodash/throttle';
+import { set } from 'lodash';
 
 const refs ={
   searchForm : document.querySelector('#search-form'),
@@ -14,10 +15,11 @@ const refs ={
 
 const apiPixabay = new ApiPixabay();
 let onLoadScroll = false;
+let oldScrolY = 0;
 let gallery ='';
 
 refs.searchForm.addEventListener('submit',startSearch);
- window.addEventListener("scroll",throttle(infiniteScroll,300));
+ document.addEventListener("scroll",throttle(infiniteScroll,300));
 
 function startSearch(e){
   e.preventDefault();
@@ -66,8 +68,7 @@ function lastRequest(){
 }
 
 function appendImages(images){
-  refs.gallery.insertAdjacentHTML('beforeend',imagesTpl(images));
-  
+  refs.gallery.insertAdjacentHTML('beforeend',imagesTpl(images)); 
 }
 
 function clearGallery() {
@@ -80,7 +81,8 @@ function addGalery(){
 
 function refreshGallery(){gallery.refresh();}
 
-function infiniteScroll(){ 
+function infiniteScroll(e){ 
+  slowScrol()
   if(onLoadScroll) {   
     if(window.pageYOffset + window.innerHeight *2 >= refs.gallery.offsetHeight)
       {
@@ -89,4 +91,22 @@ function infiniteScroll(){
   } 
 }
 
+function slowScrol(){
 
+   const marginTop = 45;
+  const array = [...refs.gallery.querySelectorAll(".photo-card")]
+  .map((element, index, array)=>{return element.getBoundingClientRect().top;});
+  const linesY = [...new Set(array)] // .getBoundingClientRect()
+  const lineY = upDounScrol(linesY,marginTop)-marginTop;
+window.scrollBy(
+  {
+    top: lineY,
+    behavior: 'smooth'
+})
+oldScrolY = window.scrollY;
+}
+
+function upDounScrol(linesY,marginTop){
+  if(oldScrolY<window.scrollY){console.log(linesY); return linesY.find(element=>element>marginTop-1);}
+    return linesY[linesY.findIndex(element=>element>marginTop-1)-1]+2;
+  }
